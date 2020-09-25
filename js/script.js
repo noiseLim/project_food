@@ -1,6 +1,6 @@
 window.addEventListener('DOMContentLoaded', () => {
 
-    // Tabs
+    //Tabs
     
     const tabs = document.querySelectorAll('.tabheader__item'),
           tabsContent = document.querySelectorAll('.tabcontent'),
@@ -42,9 +42,9 @@ window.addEventListener('DOMContentLoaded', () => {
 
     });
 
-    //Timer
+    // Timer
 
-    const deadline = '2020-09-24';
+    const deadline = '2020-10-24';
 
     function getTimeRemaining(endtime) {
         const t = Date.parse(endtime) - Date.parse(new Date()),
@@ -68,8 +68,9 @@ window.addEventListener('DOMContentLoaded', () => {
         } else {
             if (num <= 0) {
                 return `00`;
-            } 
-            return num;
+            } else {
+                return num;
+            }
         }
     }
 
