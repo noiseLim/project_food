@@ -96,7 +96,6 @@ window.addEventListener('DOMContentLoaded', () => {
                 clearInterval(timeInterval);
             }
         }
-
     }
     setClock('.timer', deadline);
 
@@ -106,13 +105,15 @@ window.addEventListener('DOMContentLoaded', () => {
           modalClose = document.querySelector('[data-close]'),
           modalBlock = document.querySelector('.modal');
 
+    function openModal () {
+        modalBlock.classList.add('show');
+        modalBlock.classList.remove('hide');
+        document.body.style.overflow = 'hidden';
+        clearInterval(modalTimeId);
+    }
 
     modalContent.forEach(btn => {
-        btn.addEventListener('click', () => {
-            modalBlock.classList.add('show');
-            modalBlock.classList.remove('hide');
-            document.body.style.overflow = 'hidden';
-        });
+        btn.addEventListener('click', openModal);
     });
 
     function closeModal () {
@@ -134,6 +135,17 @@ window.addEventListener('DOMContentLoaded', () => {
             closeModal();
         }
     });
+
+    const modalTimeId = setInterval(openModal, 5000);
+
+    function showModalByScroll() {
+        if (window.pageYOffset + document.documentElement.clientHeight >= document.documentElement.scrollHeight) {
+            openModal();
+            window.removeEventListener('scroll', showModalByScroll);
+        }
+    }
+
+    window.addEventListener('scroll', showModalByScroll);
 
 });
 
