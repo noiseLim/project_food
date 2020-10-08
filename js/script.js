@@ -147,7 +147,7 @@ window.addEventListener('DOMContentLoaded', () => {
 
     window.addEventListener('scroll', showModalByScroll);
 
-    //Class
+    ///Class
 
     class MenuCard {
         constructor(src, alt, title, descr, price, parentSelector, ...classes) {
@@ -196,7 +196,7 @@ window.addEventListener('DOMContentLoaded', () => {
         'Меню "Фитнес" - это новый подход к приготовлению блюд: больше свежих овощей и фруктов. Продукт активных и здоровых людей. Это абсолютно новый продукт с оптимальной ценой и высоким качеством!',
         9,
         ".menu .container",
-        // "menu__item"
+        "menu__item",
     ).render();
 
     new MenuCard(
@@ -218,8 +218,71 @@ window.addEventListener('DOMContentLoaded', () => {
         ".menu .container",
         // "menu__item"
     ).render();
- 
 
+    // Forms
+
+    const forms = document.querySelectorAll('form');
+
+    const message = {
+        loading: 'Загрузка',
+        success: 'Спасибо! Скоро мы с вами свяжемся!',
+        failure: 'Что-то пошло не так'
+    };
+
+    forms.forEach(item => {
+        postData(item);
+    });
+
+    function postData(form) {
+        form.addEventListener('submit', (e) => {
+            e.preventDefault();
+
+            const statusMessage = document.createElement('div');
+            statusMessage.classList.add('status');
+            statusMessage.textContent = message.loading;
+            form.append(statusMessage);
+
+
+            const request = new XMLHttpRequest();
+            request.open('POST', 'server.php');
+
+            // при использовании formData использовать заголовок не нужно
+            // request.setRequestHeader('Content-type', 'multipart/form-data');
+            
+
+            //используем JSON
+            request.setRequestHeader('Content-type', 'application/json');
+            const formData = new FormData(form);
+
+            /*прогоним FormData при помощи перебора forEach 
+            и получим обычный объект*/
+            const object = {};
+            formData.forEach(function(value, key) {
+                object[key] = value;
+            });
+
+            //теперь уже обычный объект преобразуем в JSON
+            const json = JSON.stringify(object);
+            request.send(json);
+
+
+
+            // request.send(formData);
+
+            request.addEventListener('load', () => {
+                if (request.status === 200) {
+                    console.log(request.response);
+                    statusMessage.textContent = message.success;
+                    form.reset();
+                    setTimeout(() => {
+                        statusMessage.remove();
+                    }, 2000);
+                } else {
+                    statusMessage.textContent = message.failure;
+                }
+            });
+
+        });
+    }
+    
 });
-
-
