@@ -250,7 +250,10 @@ window.addEventListener('DOMContentLoaded', () => {
                 display: block;
                 margin: 0 auto;
             `;
-            form.append(statusMessage);
+
+            // form.append(statusMessage);
+            // Чтобы спинер стоял аккуратней
+            form.insertAdjacentElement('afterend', statusMessage);
 
 
             const request = new XMLHttpRequest();
@@ -298,6 +301,8 @@ window.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // Modify modal
+
     function showThanksModal(message) {
         const prevModalDialog = document.querySelector('.modal__dialog');
 
@@ -318,7 +323,7 @@ window.addEventListener('DOMContentLoaded', () => {
             prevModalDialog.classList.add('show');
             prevModalDialog.classList.remove('hide');
             closeModal();
-        }, 4000);
+        }, 10000);
 
     }
 
